@@ -1,4 +1,4 @@
-﻿#include <itp/getopt>	
+#include <itp/getopt>	
 #include <itp/fileio>
 
 int avg(int argc, char* argv[])

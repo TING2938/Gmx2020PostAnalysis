@@ -1,4 +1,4 @@
-﻿/*
+/*
  * For conversion between std::chrono::durations without undefined
  * behaviour or erroneous results.
  * This is a stripped down version of duration_cast, for inclusion in fmt.

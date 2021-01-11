@@ -1,4 +1,4 @@
-﻿#ifndef __ITP_GMX_HEADER_INCLUDE__
+#ifndef __ITP_GMX_HEADER_INCLUDE__
 #define __ITP_GMX_HEADER_INCLUDE__
 
 #include <array>

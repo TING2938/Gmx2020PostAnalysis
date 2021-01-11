@@ -1,4 +1,4 @@
-﻿/*  Author     : TING
+/*  Author     : TING
  *  Date       : 2019/06/05
  *  Email      : yeting2938@hust.edu.cn
  */

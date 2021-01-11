@@ -1,4 +1,4 @@
-﻿#include <itp/gmx>
+#include <itp/gmx>
 
 void calc_energy(int nmi, int nmj,
 	double& vdw, double& cou, const itp::vecd& charge1, const itp::vecd& charge2,

@@ -1,4 +1,4 @@
-﻿#include <itp/core>
+#include <itp/core>
 #include <itp/fileio>
 
 int main()

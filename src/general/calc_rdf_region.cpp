@@ -1,4 +1,4 @@
-﻿/*  Author     : TING
+/*  Author     : TING
  *  Date       : 2019/10/31
  *  Email      : yeting2938@hust.edu.cn
  *  Desc       : calculate rdf of region

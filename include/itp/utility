@@ -1,4 +1,4 @@
-﻿#ifndef __ITP_UTILITY_HEADER_INCLUDE__
+#ifndef __ITP_UTILITY_HEADER_INCLUDE__
 #define __ITP_UTILITY_HEADER_INCLUDE__
 
 #include "core"

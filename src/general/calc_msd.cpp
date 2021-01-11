@@ -1,4 +1,4 @@
-﻿/*  Author     : TING
+/*  Author     : TING
  *  Date       : 2020/01/09
  *  Email      : yeting2938@hust.edu.cn
  *  Desc       : calculate msd.

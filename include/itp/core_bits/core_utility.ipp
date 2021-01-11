@@ -1,4 +1,4 @@
-﻿#include "core_utility.hpp"
+#include "core_utility.hpp"
 
 namespace itp
 {

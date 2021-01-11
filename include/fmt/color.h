@@ -1,4 +1,4 @@
-﻿// Formatting library for C++ - color support
+// Formatting library for C++ - color support
 //
 // Copyright (c) 2018 - present, Victor Zverovich and fmt contributors
 // All rights reserved.

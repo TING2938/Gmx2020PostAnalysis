@@ -1,4 +1,4 @@
-﻿#include <cmath>
+#include <cmath>
 #include <gromacs/commandline/pargs.h>
 #include <gromacs/fileio/trxio.h> 
 #include <gromacs/fileio/tpxio.h>

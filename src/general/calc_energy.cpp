@@ -1,4 +1,4 @@
-﻿#include <itp/gmx>
+#include <itp/gmx>
 
 class Handle : public itp::GmxHandle
 {

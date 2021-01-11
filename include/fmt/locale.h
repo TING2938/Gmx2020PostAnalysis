@@ -1,4 +1,4 @@
-﻿// Formatting library for C++ - std::locale support
+// Formatting library for C++ - std::locale support
 //
 // Copyright (c) 2012 - present, Victor Zverovich
 // All rights reserved.

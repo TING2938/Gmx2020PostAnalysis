@@ -1,4 +1,4 @@
-﻿#ifndef __CORE_CONFIG_H__
+#ifndef __CORE_CONFIG_H__
 #define __CORE_CONFIG_H__
 
 // #define EIGEN_NO_DEBUG

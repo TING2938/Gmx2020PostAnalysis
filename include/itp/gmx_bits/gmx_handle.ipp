@@ -1,4 +1,4 @@
-﻿#include <filesystem>
+#include <filesystem>
 #include "gmx_handle.hpp"
 
 namespace itp

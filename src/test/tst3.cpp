@@ -1,4 +1,4 @@
-﻿#include <itp/getopt>
+#include <itp/getopt>
 #include <fmt/color.h>
 #include <vector>
 #include <string>

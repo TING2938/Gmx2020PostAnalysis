@@ -1,4 +1,4 @@
-﻿#ifndef __CORE_FILEIO_HPP__
+#ifndef __CORE_FILEIO_HPP__
 #define __CORE_FILEIO_HPP__
 
 

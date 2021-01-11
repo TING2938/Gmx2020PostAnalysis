@@ -1,4 +1,4 @@
-﻿/*  Author     : TING
+/*  Author     : TING
  *  Date       : 2019/05/05
  *  Email      : yeting2938@hust.edu.cn
  *  Desc       : calculate paired and unpair number along z axis in channel simulation.

@@ -1,4 +1,4 @@
-﻿#include <itp/core>
+#include <itp/core>
 #include <thread>
 #include <vector>
 

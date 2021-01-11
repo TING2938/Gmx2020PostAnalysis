@@ -1,4 +1,4 @@
-﻿#ifndef __CORE_UTILITY_HPP__
+#ifndef __CORE_UTILITY_HPP__
 #define __CORE_UTILITY_HPP__
 
 namespace itp

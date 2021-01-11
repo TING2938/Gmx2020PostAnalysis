@@ -1,4 +1,4 @@
-﻿#include <itp/fileio>
+#include <itp/fileio>
 #include <fstream>
 
 struct Data

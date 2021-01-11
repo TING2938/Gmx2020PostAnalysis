@@ -1,4 +1,4 @@
-﻿#ifndef __CORE_GETOPT_H__
+#ifndef __CORE_GETOPT_H__
 #define __CORE_GETOPT_H__
 
 #include <string>
