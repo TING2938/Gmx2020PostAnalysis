@@ -1,0 +1,11 @@
+﻿#ifndef __ITP_UTILITY_HEADER_INCLUDE__
+#define __ITP_UTILITY_HEADER_INCLUDE__
+
+#include "core"
+
+#include "core_bits/core_utility.hpp"
+
+#endif // !__ITP_UTILITY_HEADER_INCLUDE__
+
+
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

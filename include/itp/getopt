@@ -1,0 +1,9 @@
+﻿#ifndef __ITP_GETOPT_HEADER_INCLUDE__
+#define __ITP_GETOPT_HEADER_INCLUDE__
+
+#include "core_bits/core_getopt.hpp"
+
+#endif // !__ITP_GETOPT_HEADER_INCLUDE__
+
+
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

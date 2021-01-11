@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+if [ $# -lt 1 ] ; then
+    echo "Error! please specify a source code"
+	echo "for help, type \"-h\""
+	echo "usage: ./configure path/to/<sourcecode>.cpp"
+    exit
+fi
+
+if [ $1 = "-h" ]; then
+
+	if [ ! -d "./build" ]; then
+	    mkdir ./build
+	fi
+	cd build
+	cmake .. -LH
+	exit
+fi
+
+if [ ! -f $1 ]; then
+	echo $1
+	echo "No such file!"
+	exit
+fi
+
+## Specify the code installation path
+# export CODE_INSTALL_PATH=~/install/myCode/code 
+
+## Specify the C/C++ compiler 
+# gccPath=/share/apps/gcc-5.1.0
+# export CC=$gccPath/bin/gcc
+# export CXX=$gccPath/bin/g++
+# export LD_LIBRARY_PATH=$gccPath/lib64:$LD_LIBRARY_PATH
+# export C_INCLUDE_PATH=$gccPath/include:$C_INCLUDE_PATH
+# export CPLUS_INCLUDE_PATH=$gccPath/include:$CXX_INCLUDE_PATH
+
+extension=${1##*.}
+export BaseFileName=$(basename $1 .${extension})
+export DirName=$(dirname $1)
+
+if [ ! -d "./build" ]; then
+    mkdir ./build
+fi
+
+cd build
+cmake .. ${@:2} 
+make
+

@@ -1,0 +1,43 @@
+﻿#ifndef __ITP_GMX_HEADER_INCLUDE__
+#define __ITP_GMX_HEADER_INCLUDE__
+
+#include <array>
+#include <itp/utility>
+
+#include <gromacs/commandline/pargs.h>
+#include <gromacs/fileio/trxio.h> 
+#include <gromacs/fileio/tpxio.h>
+#include <gromacs/mdtypes/inputrec.h>
+#include <gromacs/utility/fatalerror.h>
+#include <gromacs/topology/index.h> 
+#include <gromacs/topology/topology.h> 
+#include <gromacs/utility/smalloc.h>
+#include <gromacs/trajectory/trajectoryframe.h>
+#include <gromacs/commandline/cmdlineinit.h>
+
+// type define
+namespace itp
+{
+	template <typename T>
+	using Mat = Array<T, Dynamic, Dynamic>;
+
+	template <typename T>
+	using Vec = Array<T, Dynamic, 1>;
+
+	using boxd = Mat<Array3d>;
+
+	using matd = ArrayXXd;
+	using mati = ArrayXXi;
+
+	using vecd = ArrayXd;
+	using veci = ArrayXi;
+}
+
+using std::vector;
+using std::string;
+#include "gmx_bits/gmx_config.hpp" 
+#include "gmx_bits/gmx_handle.ipp"
+
+#endif // !__ITP_GMX_HEADER_INCLUDE__
+
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

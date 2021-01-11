@@ -1,0 +1,28 @@
+﻿#ifndef __ITP_CORE_HEADER_INCLUDE__
+#define __ITP_CORE_HEADER_INCLUDE__
+
+#include <string>
+#include <vector>
+#include <iostream>
+
+#include "core_bits/core_config.hpp"
+
+#ifndef ITP_NO_FMT
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+using namespace fmt::literals;
+#endif // !ITP_NO_FMT
+
+#include <Eigen/Dense>
+
+namespace itp
+{
+	using namespace Eigen;
+}
+
+
+
+
+#endif // !__ITP_CORE_HEADER_INCLUDE__
+
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

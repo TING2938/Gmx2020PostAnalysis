@@ -1,0 +1,9 @@
+#ifndef __ITP_TIMER_HEADER_INCLUDE__
+#define __ITP_TIMER_HEADER_INCLUDE__
+
+#include "core_bits/core_timer.hpp"
+
+#endif // !__ITP_TIMER_HEADER_INCLUDE__
+
+
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */
