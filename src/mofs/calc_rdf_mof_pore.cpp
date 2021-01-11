@@ -121,7 +121,7 @@ gmx_main(temp)
 			totVolume(i, j) -= totVolume(i, j - 1);
 		}
 	}
-	fmt::print("calculate volume finished ...\n");
+	fmt::print("calculate volume finished\n");
 
 	/* ---------------------------------------------------------------------------- */
 	do

@@ -12,9 +12,9 @@ namespace itp
 	}
 
 	template<typename T>
-	Array<T, -1, 1> cumsum(const Array<T, -1, 1>& vec)
+	Eigen::Array<T, -1, 1> cumsum(const Eigen::Array<T, -1, 1>& vec)
 	{
-		Array<T, -1, 1> res(vec.size());
+		Eigen::Array<T, -1, 1> res(vec.size());
 		res[0] = vec[0];
 		for (size_t i = 1; i != vec.size(); ++i)
 		{
@@ -24,7 +24,7 @@ namespace itp
 	}
 
 	template<typename S, typename T>
-	double trapz(const Array<S, -1, 1>& x, const Array<T, -1, 1>& y)
+	double trapz(const Eigen::Array<S, -1, 1>& x, const Eigen::Array<T, -1, 1>& y)
 	{
 		ITP_ASSERT(x.size() == y.size(), "trapz: size error!");
 		double res = 0.0;
@@ -36,10 +36,10 @@ namespace itp
 	}
 
 	template<typename S, typename T>
-	ArrayXd cumtrapz(const Array<S, -1, 1>& x, const Array<T, -1, 1>& y)
+	Eigen::ArrayXd cumtrapz(const Eigen::Array<S, -1, 1>& x, const Eigen::Array<T, -1, 1>& y)
 	{
 		ITP_ASSERT(x.size() == y.size(), "trapz: size error!");
-		ArrayXd res(x.size());
+		Eigen::ArrayXd res(x.size());
 		res[0] = 0.0;
 
 		for (size_t i = 1; i != x.size(); ++i)

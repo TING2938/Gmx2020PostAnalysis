@@ -15,7 +15,7 @@ namespace itp
 	 * @return 数据矩阵
 	*/
 	template <typename T = double>
-	Array<T, Dynamic, Dynamic> loadtxt(std::istream& is,
+	Eigen::Array<T, Dynamic, Dynamic> loadtxt(std::istream& is,
 		int nrows = Dynamic, int ncols = Dynamic, std::string comments = "#@", int skiprows = 0);
 
 	/**
@@ -29,7 +29,7 @@ namespace itp
 	 * @return 数据矩阵
 	*/
 	template <typename T = double>
-	Array<T, Dynamic, Dynamic> loadtxt(std::string fileName,
+	Eigen::Array<T, Dynamic, Dynamic> loadtxt(std::string fileName,
 		int nrows = Dynamic, int ncols = Dynamic, std::string comments = "#@", int skiprows = 0);
 
 	/**

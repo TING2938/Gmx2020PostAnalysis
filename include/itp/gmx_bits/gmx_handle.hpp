@@ -1,4 +1,4 @@
-
+﻿
 namespace itp
 {
 	/**
@@ -17,7 +17,7 @@ namespace itp
 		/**
 		 * @brief 初始化，包括选择索引
 		*/
-		void init(bool fullMolecule = true);
+		void init(bool bFullMolecule = true);
 
 		/**
 		 * @brief 读取第一帧数据

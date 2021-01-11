@@ -1,14 +1,16 @@
-﻿#include "gmx_handle.hpp"
-
+﻿#include <filesystem>
+#include "gmx_handle.hpp"
 
 namespace itp
 {
+
+
 	inline GmxHandle::GmxHandle(int argc, char** argv) : argc(argc), argv(argv),
 		flags(TRX_READ_X), ngrps(1), nframe(0)
 	{
 	}
 
-	inline void GmxHandle::init(bool fullMolecule)
+	inline void GmxHandle::init(bool bFullMolecule)
 	{
 		fnm.push_back({ efTRX, "-f", nullptr, ffREAD });
 		fnm.push_back({ efTPR, "-s", nullptr, ffREAD });
@@ -30,10 +32,10 @@ namespace itp
 		snew(ngx, ngrps);
 		snew(fr, 1);
 
-		printf("\n\033[31mSpecify %d group%s to analysis:\33[0m\n", ngrps, (ngrps > 1) ? "s" : "");
+		fmt::print("\n\033[31mSpecify {} group{} to analysis:\33[0m\n", ngrps, (ngrps > 1) ? "s" : "");
 		get_index(&top->atoms, get_ftp2fn_null(efNDX), ngrps, ngx, index, grpname);
 
-		if (fullMolecule)
+		if (bFullMolecule)
 		{
 			napm.resize(ngrps);
 			nmol.resize(ngrps);
@@ -42,26 +44,26 @@ namespace itp
 
 			for (int i = 0; i != ngrps; ++i)
 			{
-				printf("\n\033[31m### Group %d: '%s': \033[0m\n", i, grpname[i]);
+				fmt::print("\n\033[31m### Group {}: '{}': \033[0m\n", i, grpname[i]);
 				napm[i] = get_natom_per_mol(i);
 				nmol[i] = ngx[i] / napm[i];
-				printf("# Nr. of atoms in each molecule : %d\n", napm[i]);
-				printf("# Nr. of molecules in group: %d\n", nmol[i]);
+				fmt::print("# Nr. of atoms in each molecule : {}\n", napm[i]);
+				fmt::print("# Nr. of molecules in group: {}\n", nmol[i]);
 
 				mass[i] = get_mass(i);
 				charge[i] = get_charge(i);
 
-				printf("# Print infomation of molecule:\n");
-				printf("\033[33m# nr.   name     mass   charge\033[0m\n");
-				printf("------------------------------\n");
+				fmt::print("# Print infomation of molecule:\n");
+				fmt::print("\033[33m# nr.   name     mass   charge\033[0m\n");
+				fmt::print("------------------------------\n");
 				for (int j = 0; j != napm[i]; ++j)
 				{
-					printf("%5d%7s%9.3f%9.3f\n", j, *top->atoms.atomname[index[i][j]], mass[i][j], charge[i][j]);
+					fmt::print("{:5d}{:7s}{:9.3f}{:9.3f}\n", j, *top->atoms.atomname[index[i][j]], mass[i][j], charge[i][j]);
 				}
-				printf("------------------------------\n");
-				printf("%12s%9.3f%9.3f\n", "Total", mass[i].sum(), charge[i].sum());
+				fmt::print("------------------------------\n");
+				fmt::print("{:12s}{:9.3f}{:9.3f}\n", "Total", mass[i].sum(), charge[i].sum());
 			}
-			printf("\n");
+			fmt::print("\n");
 		}
 	}
 
@@ -349,9 +351,9 @@ namespace itp
 		int type;
 		c6.resize(napm[group1], napm[group2]);
 		c12.resize(napm[group1], napm[group2]);
-		printf("\n\033[31m### LJ Parameters(Group %d and %d):\033[0m\n", group1, group2);
-		printf("[  at1  at2]: %12s %12s\n", "c6", "c12");
-		printf("---------------------------------------\n");
+		fmt::print("\n\033[31m### LJ Parameters(Group {} and {}):\033[0m\n", group1, group2);
+		fmt::print("[  at1  at2]: {:12s} {:12s}\n", "c6", "c12");
+		fmt::print("---------------------------------------\n");
 		int n = 0;
 		for (int i = 0; i != napm[group1]; ++i)
 		{
@@ -364,15 +366,15 @@ namespace itp
 				c12(i, j) = top->idef.iparams[type].lj.c12;
 				if (n++ <= 12)
 				{
-					printf("[%5s%5s]: %12.4e %12.4e\n", *top->atoms.atomname[n1], *top->atoms.atomname[n2], c6(i, j), c12(i, j));
+					fmt::print("[{:5s}{:5s}]: {:12.4e} {:12.4e}\n", *top->atoms.atomname[n1], *top->atoms.atomname[n2], c6(i, j), c12(i, j));
 				}
 			}
 		}
 		if (napm[group1] * napm[group2] > 12)
 		{
-			printf("(.........)\n");
+			fmt::print("(.........)\n");
 		}
-		printf("\n");
+		fmt::print("\n");
 	}
 
 	inline FILE* GmxHandle::openWrite(std::string fnm, bool writeInfo)
@@ -380,22 +382,20 @@ namespace itp
 		FILE* fp = fopen(fnm.c_str(), "w");
 		if (writeInfo)
 		{
-			char pwd[FILENAME_MAX];
-			GetCurrentDir(pwd, sizeof(pwd));
 			// get local time
 			time_t t;
 			char buff[500];
 			t = std::time(NULL);
-			strftime(buff, 500, "%Y-%m-%d %H:%M:%S %A", localtime(&t));
+			std::strftime(buff, 500, "%Y-%m-%d %H:%M:%S %A", localtime(&t));
 
-			fprintf(fp, "# This file was created at %s\n", buff);
-			fprintf(fp, "# Working dir : %s\n", pwd);
-			fprintf(fp, "# Command line:");
+			fmt::print(fp, "# This file was created at {}\n", buff);
+			fmt::print(fp, "# Working dir : {}\n", std::filesystem::current_path());
+			fmt::print(fp, "# Command line:");
 			for (int i = 0; i != argc; ++i)
 			{
-				fprintf(fp, " %s", argv[i]);
+				fmt::print(fp, " {}", argv[i]);
 			}
-			fprintf(fp, "\n");
+			fmt::print(fp, "\n");
 		}
 		return fp;
 	}

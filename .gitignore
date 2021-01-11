@@ -23,6 +23,7 @@ html_book*/
 *.html
 *#
 *.o
+a.out
 *.sln
 *.vcxproj*
 .gitattributes

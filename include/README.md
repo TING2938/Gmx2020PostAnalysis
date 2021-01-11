@@ -1,11 +1,3 @@
-# header file for analysis
 
-## class
+## C++ header files for Gromacs2020 analysis
 
-- Vector
-- Matrix
-- Tensor
-- Getopt
-- Range
-- Slice
-- GmxHandle

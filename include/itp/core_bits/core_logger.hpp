@@ -5,8 +5,12 @@
 #include <string>
 #include <itp/utility>
 
-/*
-usage: 
+
+
+namespace itp
+{
+	/*
+usage:
 int i = 4;
 double j = 2.3;
 std::string k = "this is a string";
@@ -16,9 +20,6 @@ LOG(log, i);
 LOG(log, j);
 LOG(log, k);
 */
-
-namespace itp
-{
 	class Logger
 	{
 	public:

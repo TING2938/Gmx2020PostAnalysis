@@ -13,7 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
 
 ## options
 option(USE_DEBUG "Debug this code." OFF)
-option(USE_GTEST "Build test." OFF)
 option(USE_THREAD "Use thread library." OFF)
 option(USE_OMP "Use OpenMP." OFF)
 
@@ -29,11 +28,7 @@ if (USE_OMP)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 endif()
 
-if (USE_GTEST)
-  add_subdirectory(dependencies/googletest EXCLUDE_FROM_ALL)
-endif ()
-
-include_directories(${PROJECT_SOURCE_DIR}/Core/include) 
+include_directories(${PROJECT_SOURCE_DIR}/include) 
 
 add_subdirectory($ENV{DirName})
 

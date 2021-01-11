@@ -17,7 +17,7 @@ using namespace fmt::literals;
 
 namespace itp
 {
-	using namespace Eigen;
+	using Eigen::Dynamic;
 }
 
 

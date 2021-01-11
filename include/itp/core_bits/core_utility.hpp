@@ -1,4 +1,4 @@
-#ifndef __CORE_UTILITY_HPP__
+﻿#ifndef __CORE_UTILITY_HPP__
 #define __CORE_UTILITY_HPP__
 
 namespace itp
@@ -17,7 +17,7 @@ namespace itp
 	 * @return 累加结果
 	*/
 	template<typename T>
-	Array<T, -1, 1> cumsum(const Array<T, -1, 1>& vec);
+	Eigen::Array<T, -1, 1> cumsum(const Eigen::Array<T, -1, 1>& vec);
 
 	/**
 	 * @brief 数值积分
@@ -28,7 +28,7 @@ namespace itp
 	 * @return 积分结果
 	*/
 	template<typename S, typename T>
-	double trapz(const Array<S, -1, 1>& x, const Array<T, -1, 1>& y);
+	double trapz(const Eigen::Array<S, -1, 1>& x, const Eigen::Array<T, -1, 1>& y);
 
 	/**
 	 * @brief 累积积分
@@ -39,7 +39,7 @@ namespace itp
 	 * @return 累积积分数组
 	*/
 	template<typename S, typename T>
-	ArrayXd cumtrapz(const Array<S, -1, 1>& x, const Array<T, -1, 1>& y);
+	Eigen::ArrayXd cumtrapz(const Eigen::Array<S, -1, 1>& x, const Eigen::Array<T, -1, 1>& y);
 
 	/**
 	 * @brief 数组中是否包含某元素

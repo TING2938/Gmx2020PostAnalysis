@@ -14,7 +14,7 @@ namespace itp
 	}
 
 	template <typename T>
-	Array<T, Dynamic, Dynamic> loadtxt(std::istream& is, int nrows, int ncols, std::string comments, int skiprows)
+	Eigen::Array<T, Dynamic, Dynamic> loadtxt(std::istream& is, int nrows, int ncols, std::string comments, int skiprows)
 	{
 		std::string line;
 		T buff;
@@ -56,7 +56,7 @@ namespace itp
 					}
 				}
 			} while (std::getline(is, line));
-			Array<T, Dynamic, Dynamic> res(vec.size() / ncols, ncols);
+			Eigen::Array<T, Dynamic, Dynamic> res(vec.size() / ncols, ncols);
 			for (int i = 0; i != res.rows(); ++i)
 			{
 				for (int j = 0; j != res.cols(); ++j)
@@ -67,7 +67,7 @@ namespace itp
 			return res;
 		}
 
-		Array<T, Dynamic, Dynamic> data(nrows, ncols);
+		Eigen::Array<T, Dynamic, Dynamic> data(nrows, ncols);
 		size_t i = 0;
 		do
 		{
@@ -84,7 +84,7 @@ namespace itp
 	}
 
 	template <typename T>
-	Array<T, Dynamic, Dynamic> loadtxt(std::string fileName, int nrows, int ncols, std::string comments, int skiprows)
+	Eigen::Array<T, Dynamic, Dynamic> loadtxt(std::string fileName, int nrows, int ncols, std::string comments, int skiprows)
 	{
 		std::ifstream is(fileName);
 		ITP_ASSERT(is.is_open(), "Can not open this file: " + fileName);
@@ -92,7 +92,7 @@ namespace itp
 	}
 
 	template <typename T>
-	bool loadtxt(std::istream& is, Array<T, Dynamic, Dynamic>& data, std::string comments, int skiprows)
+	bool loadtxt(std::istream& is, Eigen::Array<T, Dynamic, Dynamic>& data, std::string comments, int skiprows)
 	{
 		std::string line;
 		std::stringstream ss;

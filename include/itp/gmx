@@ -19,18 +19,18 @@
 namespace itp
 {
 	template <typename T>
-	using Mat = Array<T, Dynamic, Dynamic>;
+	using Mat = Eigen::Array<T, Dynamic, Dynamic>;
 
 	template <typename T>
-	using Vec = Array<T, Dynamic, 1>;
+	using Vec = Eigen::Array<T, Dynamic, 1>;
 
-	using boxd = Mat<Array3d>;
+	using boxd = Mat<Eigen::Array3d>;
 
-	using matd = ArrayXXd;
-	using mati = ArrayXXi;
+	using matd = Eigen::ArrayXXd;
+	using mati = Eigen::ArrayXXi;
 
-	using vecd = ArrayXd;
-	using veci = ArrayXi;
+	using vecd = Eigen::ArrayXd;
+	using veci = Eigen::ArrayXi;
 }
 
 using std::vector;

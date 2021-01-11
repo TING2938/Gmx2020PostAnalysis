@@ -1,7 +1,5 @@
 
-find_package(GROMACS 2018.1 REQUIRED)
-include_directories(${PROJECT_SOURCE_DIR}/Core/include)
-include_directories(${PROJECT_SOURCE_DIR}/Gmx1802/include)
+find_package(GROMACS 2020.1 REQUIRED)
 include_directories(${GROMACS_INCLUDE_DIRS})
 add_definitions(${GROMACS_DEFINITIONS})
 
