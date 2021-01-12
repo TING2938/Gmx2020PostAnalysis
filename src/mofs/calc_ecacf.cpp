@@ -4,7 +4,7 @@
  *  Desc       : calculation ecacf
  */
 #define GMX_NOT_MOLECULE
-#include <itp/eigen>
+#include <itp/gmx>
 
 class Handle : public itp::GmxHandle
 {
