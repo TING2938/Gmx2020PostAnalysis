@@ -9,7 +9,7 @@ set(CMAKE_INSTALL_PREFIX $ENV{CODE_INSTALL_PATH})
 
 ## flags
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -lstdc++fs -O3")
 
 ## options
 option(USE_DEBUG "Debug this code." OFF)
