@@ -381,14 +381,8 @@ namespace itp
 	{
 		FILE* fp = fopen(fnm.c_str(), "w");
 		if (writeInfo)
-		{
-			// get local time
-			time_t t;
-			char buff[500];
-			t = std::time(NULL);
-			std::strftime(buff, 500, "%Y-%m-%d %H:%M:%S %A", localtime(&t));
-
-			fmt::print(fp, "# This file was created at {}\n", buff);
+		{		
+			fmt::print(fp, "# This file was created at {}\n", itp::localTime());
 			fmt::print(fp, "# Working dir : {}\n", std::filesystem::current_path());
 			fmt::print(fp, "# Command line:");
 			for (int i = 0; i != argc; ++i)
