@@ -7,3 +7,4 @@
 			return gmx_run_cmain(argc, argv, &func);		\
 		}													\
 		int func(int argc, char** argv)
+

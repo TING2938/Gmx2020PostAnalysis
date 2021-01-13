@@ -1,5 +1,6 @@
 #ifndef __ITP_GMX_HEADER_INCLUDE__
 #define __ITP_GMX_HEADER_INCLUDE__
+#define _DLGSH_INCLUDED_ // for msvc define
 
 #include <array>
 #include <itp/utility>

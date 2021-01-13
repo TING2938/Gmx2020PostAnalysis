@@ -112,11 +112,11 @@ gmx_main(temp)
 	return 0;
 }
 
-void getDistance(SparseMatrix& dist, matd& pos1, matd& pos2, double Lbox[3], double rSquare)
+void getDistance(SparseMatrix& dist, itp::matd& pos1, itp::matd& pos2, double Lbox[3], double rSquare)
 {
 	double dR, dRc;
-	for (size_t i = 0; i != pos1.nrow(); ++i) {
-		for (size_t j = 0; j != pos2.nrow(); ++j) {
+	for (size_t i = 0; i != pos1.rows(); ++i) {
+		for (size_t j = 0; j != pos2.rows(); ++j) {
 			dRc = 0;
 			for (size_t k = 0; k != 2; ++k) {
 				dR = itp::periodicity(pos1(i, k) - pos2(j, k), Lbox[k]);
