@@ -58,10 +58,10 @@ namespace itp
 				fmt::print("------------------------------\n");
 				for (int j = 0; j != napm[i]; ++j)
 				{
-					fmt::print("{:5d}{:7s}{:9.3f}{:9.3f}\n", j, *top->atoms.atomname[index[i][j]], mass[i][j], charge[i][j]);
+					fmt::print("{:>5d}{:>7s}{:>9.3f}{:>9.3f}\n", j, *top->atoms.atomname[index[i][j]], mass[i][j], charge[i][j]);
 				}
 				fmt::print("------------------------------\n");
-				fmt::print("{:12s}{:9.3f}{:9.3f}\n", "Total", mass[i].sum(), charge[i].sum());
+				fmt::print("{:<12s}{:>9.3f}{:>9.3f}\n", "Total", mass[i].sum(), charge[i].sum());
 			}
 			fmt::print("\n");
 		}
