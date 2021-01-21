@@ -13,6 +13,7 @@
 #include <gromacs/topology/index.h> 
 #include <gromacs/topology/topology.h> 
 #include <gromacs/utility/smalloc.h>
+#include <gromacs/math/utilities.h>
 #include <gromacs/trajectory/trajectoryframe.h>
 #include <gromacs/commandline/cmdlineinit.h>
 

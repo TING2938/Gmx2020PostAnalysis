@@ -71,7 +71,7 @@ public:
 gmx_main(temp)
 {
 	Handle hd(argc, argv);
-
+	
 	/* add some user-defined pargs. */
 	rvec dbin = {0.01, 0.01, 0.01};
 	rvec low = { 0.0, 0.0, 0.0 };
@@ -89,6 +89,7 @@ gmx_main(temp)
 	int tp3 = 3;
 	int DIMNOrient = 2;
 	int method = 1;
+	
 
 	hd.pa = {
 		{ "-NCM",FALSE, etINT, {&NCM}, "center of molecule\n0: mass; 1: geometry; 2: charge" },
