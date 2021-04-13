@@ -46,7 +46,7 @@ gmx_main(temp)
 
 	return 0;
 }
-
+  
 void Handle::getPosc(itp::vecd& posc, int grp)
 {
 	if (grp >= ngrps)
