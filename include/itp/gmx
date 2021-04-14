@@ -39,6 +39,8 @@ using std::vector;
 using std::string;
 #include "gmx_bits/gmx_config.hpp" 
 #include "gmx_bits/gmx_handle.ipp"
+ 
+#include "gmx_bits/gmx_handle_full.ipp"
 
 #endif // !__ITP_GMX_HEADER_INCLUDE__
 

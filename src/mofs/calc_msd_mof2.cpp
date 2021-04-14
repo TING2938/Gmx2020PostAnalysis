@@ -45,6 +45,7 @@ public:
 		return dura;
 	}
 
+
 	itp::vecd calcMSD(const std::vector<std::vector<double>>& pos,
 		const std::vector<std::vector<int>>& index, const std::vector<std::vector<int>>& duration)
 	{

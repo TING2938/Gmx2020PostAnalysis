@@ -3,8 +3,6 @@
 
 namespace itp
 {
-
-
 	inline GmxHandle::GmxHandle(int argc, char** argv) : argc(argc), argv(argv),
 		flags(TRX_READ_X), ngrps(1), nframe(0)
 	{

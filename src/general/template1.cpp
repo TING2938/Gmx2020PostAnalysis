@@ -21,16 +21,17 @@ gmx_main(temp)
 	Handle hd(argc, argv);
 
 	hd.ngrps = 1; /* number of group(s), grp1 and grp2, anion and cation. */
+	int grp = 0;
 
 	/* add some user-defined pargs. */
+	int com = 0;  // center of molecule, 0:mass, 1:geometry, 2:charge
 	int nbin = 100;
-	int dim = 2; // 0(x), 1(y), 2(z);
+	int dim = 2; // dim, 0(x), 1(y), 2(z);
 	real lowPos = 0; // nm;
 	real upPos = 30; // nm;
-	const char* str = "x";
-
+	
 	hd.pa = {
-		{ "-str", FALSE, etSTR, {&str}, "str"},
+		{ "-com", FALSE, etINT, {&com}, "center of molecule, 0:mass, 1:geometry, 2:charge"},
 		{ "-nbin", FALSE, etINT,  {&nbin}, "nbins."},
 		{ "-dim", FALSE, etINT, {&dim}, "dim, 0(x), 1(y), 2(z)"},
 		{ "-up", FALSE, etREAL, {&upPos}, "up position of region of molecule/ion (nm)" },
@@ -44,14 +45,14 @@ gmx_main(temp)
 	hd.init();
 	hd.readFirstFrame();
 
-	hd.pos1.resize(hd.nmol[0], hd.napm[0]);
-	hd.posc1.resize(hd.nmol[0], 3);
+	hd.pos1.resize(hd.nmol[grp], hd.napm[grp]);
+	hd.posc1.resize(hd.nmol[grp], 3);
 
 	/* ---------------------------------------------------------------------------- */
 	do
 	{
-		hd.loadPosition(hd.pos1, 0);
-		hd.loadPositionCenter(hd.posc1, 0);
+		hd.loadPosition(hd.pos1, grp);
+		hd.loadPositionCenter(hd.posc1, grp, com);
 
 	} while (hd.readNextFrame());
 
