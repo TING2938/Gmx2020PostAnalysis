@@ -28,6 +28,7 @@ public:
 		}
 	}
 
+	// determine which bin the position belong to
 	int getMe(real pos, real lowPos, double dbin, int dim)
 	{
 		while (pos > Lbox[dim])
@@ -53,7 +54,6 @@ public:
 		{
 			for (int i = 0; i < halframe; i++)
 			{
-				// determine which bin the position belong to
 				me = getMe(allPos[i](k, dim), lowPos, dbin, dim);
 				if (0 <= me && me < nbin)
 				{
@@ -95,10 +95,11 @@ gmx_main(temp)
 	real upPos = 30; // nm;
 	int msdType = 6; // 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ 
 	std::vector<std::vector<int>> msdCalcDim = {
-		{0}, {1}, {2},
-		{0, 1}, {1, 2}, {0, 2},
-		{0, 1, 2},
+		{XX}, {YY}, {ZZ},
+		{XX, YY}, {YY, ZZ}, {XX, ZZ},
+		{XX, YY, ZZ},
 	};
+	std::vector<int> dimFactor = {2, 2, 2, 4, 4, 4, 6};
 
 	hd.pa = {
 		{ "-type", FALSE, etINT, {&msdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"},
