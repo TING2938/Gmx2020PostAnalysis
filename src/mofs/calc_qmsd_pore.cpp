@@ -1,17 +1,19 @@
-﻿/*  Author     : TING
- *  Date       : 2021/04/13
+/*  Author     : TING
+ *  Date       : 2020/01/09
  *  Email      : yeting2938@hust.edu.cn
  *  Desc       : calculate msd.
  */
 
 #include <itp/gmx>
 
-class Handle : public itp::GmxHandle
+using array3d = std::array<double, 3>;
+
+class Handle : public itp::GmxHandleFull
 {
 public:
-	using GmxHandle::GmxHandle;
+	using GmxHandleFull::GmxHandleFull;
 
-	void rmPBC(std::vector<itp::matd>& allPos, int grp)
+	void rmPBC(int grp)
 	{
 		for (int i = 1; i < nframe; i++)
 		{
@@ -19,69 +21,88 @@ public:
 			{
 				for (int m = 0; m < 3; m++)
 				{
-					while (allPos[i](j, m) - allPos[i - 1](j, m) > Lbox[m] / 2)
-						allPos[i](j, m) -= Lbox[m];
-					while (allPos[i](j, m) - allPos[i - 1](j, m) < -Lbox[m] / 2)
-						allPos[i](j, m) += Lbox[m];
+					while (allPosc[i](j, m) - allPosc[i - 1](j, m) > Lbox[m] / 2)
+						allPosc[i](j, m) -= Lbox[m];
+					while (allPosc[i](j, m) - allPosc[i - 1](j, m) < -Lbox[m] / 2)
+						allPosc[i](j, m) += Lbox[m];
 				}
 			}
 		}
 	}
 
-	// determine which bin the position belong to
-	int getMe(real pos, real lowPos, double dbin, int dim)
+	itp::vecd calcQMSD(const std::vector<int>& calcDim, int grp)
 	{
-		while (pos > Lbox[dim])
-			pos -= Lbox[dim];
-		while (pos < 0)
-			pos += Lbox[dim];
-		return int((pos - lowPos) / dbin);
-	}
-
-	// return: msd
-	itp::matd calcMSD(const std::vector<itp::matd>& allPos, const std::vector<int>& calcDim, 
-		int grp, real lowPos, real upPos, int nbin, int dim)
-	{
+		int nframe = allPosc.size();
 		int halframe = nframe / 2;
-		double dbin = (upPos - lowPos) / nbin;
-		itp::matd msd(halframe, nbin);
-		itp::veci count(nbin);
-		msd.fill(0);
-		count.fill(0);
-		int me;
 
-		for (int k = 0; k < nmol[grp]; k++)
+		itp::matd qmsd(halframe, calcDim.size());
+		itp::vecd count(halframe);
+		qmsd.fill(0);
+		count.fill(0);
+
+		for (int i = 0; i < halframe; i++) // for each halframe
 		{
-			for (int i = 0; i < halframe; i++)
+			for (int j = 0; j < nmol[grp]; j++) // for each molecule
 			{
-				me = getMe(allPos[i](k, dim), lowPos, dbin, dim);
-				if (0 <= me && me < nbin)
+				if (bInRegion(i, j))
 				{
-					count[me]++;
-					for (int j = 0; j < halframe; j++)
+					for (int k = 0; k < halframe; k++)
 					{
-						for (auto&& m : calcDim)
+						if (bInRegion(i + k, j))
 						{
-							msd(j, me) += std::pow(allPos[i + j](k, m) - allPos[i](k, m), 2);
+							for (int m = 0; m < calcDim.size(); m++)
+							{
+								qmsd(k, m) += totCharge[grp][j] * (allPosc[i + k](j, calcDim[m]) - allPosc[i](j, calcDim[m]));
+							}
+							count[k]++;
+						}
+						else
+						{
+							break;
 						}
 					}
 				}
 			}
 		}
 
-		for (int i = 0; i < halframe; i++)
+		itp::vecd outputQMSD(halframe);
+		outputQMSD.fill(0);
+
+		for (int i = 0; i != halframe; ++i)
 		{
-			for (int j = 0; j < nbin; j++)
+			for (int m = 0; m < calcDim.size(); m++)
 			{
-				if (count[j] > 0.0)
-				{
-					msd(i, j) /= count[j];
-				}
+				outputQMSD[i] += std::pow(qmsd(i, m), 2);
 			}
+			if (count[i] != 0)
+				outputQMSD[i] /= count[i];
 		}
-		return msd;
+		return outputQMSD;
 	}
 
+	bool bInRegion(int frame, int nm)
+	{
+		double tmp;
+		for (int m = 0; m < 3; m++)
+		{
+			tmp = allPosc[frame](nm, m);
+			while (tmp > Lbox[m])
+				tmp -= Lbox[m];
+			while (tmp < 0)
+				tmp += Lbox[m];
+			if (!(low[m] <= tmp && tmp < up[m]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+public:
+	itp::matd posc;
+	std::vector<itp::matd> allPosc;
+	rvec low;
+	rvec up;
 };
 
 gmx_main(temp)
@@ -89,59 +110,51 @@ gmx_main(temp)
 	Handle hd(argc, argv);
 
 	/* add some user-defined pargs. */
+	rvec lowPos = { 0, 0, 0 };
+	rvec upPos = { 30, 30, 30 };
 	int com = 0;  // center of molecule, 0:mass, 1:geometry, 2:charge
-	int dim = 2;
-	int nbin = 1;
-	real lowPos = 0; // nm;
-	real upPos = 30; // nm;
-	int msdType = 6; // 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ 
-	std::vector<std::vector<int>> msdCalcDim = {
+	int qmsdType = 6; // 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ 
+	std::vector<std::vector<int>> qmsdCalcDim = {
 		{XX}, {YY}, {ZZ},
 		{XX, YY}, {YY, ZZ}, {XX, ZZ},
 		{XX, YY, ZZ},
 	};
-	// std::vector<int> dimFactor = {2, 2, 2, 4, 4, 4, 6};
 
 	hd.pa = {
+		{ "-low", FALSE, etRVEC, {lowPos}, "low position" },
+		{ "-up", FALSE, etRVEC, {upPos}, "up position" },
 		{ "-com", FALSE, etINT, {&com}, "center of molecule, 0:mass, 1:geometry, 2:charge"},
-		{ "-type", FALSE, etINT, {&msdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"},
-		{ "-dim", FALSE, etINT, {&dim}, "dim of selected region"},
-		{ "-nbin", FALSE, etINT,  {&nbin}, "nbins."},
-		{ "-up", FALSE, etREAL, {&upPos}, "up position of region of molecule/ion (nm)" },
-		{ "-low", FALSE, etREAL, {&lowPos}, "low position of region of molecule/ion (nm)" }
+		{ "-type", FALSE, etINT, {&qmsdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"},
 	};
 
 	hd.fnm = {
-		{ efXVG, "-o", "msd_bin", ffWRITE }
+		{ efXVG, "-o", "calc_qmsd_Ft", ffWRITE }
 	};
 
+	int grp = 0;
 	hd.init();
+	std::copy_n(lowPos, 3, hd.low);
+	std::copy_n(upPos, 3, hd.up);
+
 	hd.readFirstFrame();
 
-	int grp = 0;
-	itp::matd posc = hd.initPosc(grp);
-	std::vector<itp::matd> allPosc;
+	hd.initPosc(hd.posc, grp);
 
 	/* ---------------------------------------------------------------------------- */
 	do
 	{
-		hd.loadPositionCenter(posc, grp, com);
-		allPosc.push_back(posc);
+		hd.loadPositionCenter(hd.posc, grp, com);
+		hd.allPosc.push_back(hd.posc);
 	} while (hd.readNextFrame());
 
-	hd.rmPBC(allPosc, grp);
+	hd.rmPBC(grp);
+	itp::vecd qmsd = hd.calcQMSD(qmsdCalcDim[qmsdType], grp);
 
-	itp::matd msd = hd.calcMSD(allPosc, msdCalcDim[msdType], grp, lowPos, upPos, nbin, dim);
+	auto file = hd.openWrite(hd.get_ftp2fn(efXVG));
 
-	auto ofile = hd.openWrite(hd.get_opt2fn("-o"));
-	for (int i = 0; i < msd.rows(); i++)
+	for (int i = 0; i != qmsd.size(); ++i)
 	{
-		fmt::print(ofile, "{:8.3f}\t", i * hd.dt);
-		for (int j = 0; j < msd.cols(); j++)
-		{
-			fmt::print(ofile, "{:10.6f}\t", msd(i, j));
-		}
-		fmt::print(ofile, "\n");
+		fmt::print(file, "{:8.4f} {:8.4f} \n", i * hd.dt, qmsd[i]);
 	}
 
 	return 0;

@@ -19,6 +19,7 @@ public:
 gmx_main(temp)
 {
 	Handle hd(argc, argv);
+	rvec lowPos = { 0, 1, 2 };
 
 	hd.ngrps = 1; /* number of group(s), grp1 and grp2, anion and cation. */
 	int grp = 0;
