@@ -6,6 +6,7 @@
 
 #include <itp/gmx>
 
+// main class
 class Handle : public itp::GmxHandle
 {
 public:
