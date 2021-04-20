@@ -6,6 +6,7 @@
 
 #include <itp/gmx>
 
+// 3D array
 using array3d = std::array<double, 3>;
 
 class Handle : public itp::GmxHandleFull
