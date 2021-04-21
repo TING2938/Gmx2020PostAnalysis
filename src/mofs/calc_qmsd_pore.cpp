@@ -125,7 +125,7 @@ gmx_main(temp)
 		{ "-low", FALSE, etRVEC, {lowPos}, "low position" },
 		{ "-up", FALSE, etRVEC, {upPos}, "up position" },
 		{ "-com", FALSE, etINT, {&com}, "center of molecule, 0:mass, 1:geometry, 2:charge"},
-		{ "-type", FALSE, etINT, {&qmsdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"},
+		{ "-type", FALSE, etINT, {&qmsdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"}
 	};
 
 	hd.fnm = {
