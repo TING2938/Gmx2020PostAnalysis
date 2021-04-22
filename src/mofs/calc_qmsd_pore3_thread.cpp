@@ -74,7 +74,7 @@ public:
 						pos1 = allPos[i][j][calcDim[m]];
 						ndx = std::find(allIndex[i+k].begin(), allIndex[i+k].end(), allIndex[i][j]) - allIndex[i+k].begin();
 						pos2 = allPos[i + k][ndx][calcDim[m]];
-						qmsd(k, m) += totCharge[grp][allIndex[i][j]] * (pos2 - pos1);
+						qmsd(k, m) += std::pow(totCharge[grp][allIndex[i][j]] * (pos2 - pos1), 2);
 					}
 					count[k]++;
 				}
@@ -89,7 +89,7 @@ public:
 		{
 			for (int m = 0; m < calcDim.size(); m++)
 			{
-				outputQMSD[i] += std::pow(qmsd(i, m), 2);
+				outputQMSD[i] += qmsd(i, m);
 			}
 			if (count[i] != 0)
 				outputQMSD[i] /= count[i];
