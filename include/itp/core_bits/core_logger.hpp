@@ -5,8 +5,6 @@
 #include <string>
 #include <itp/utility>
 
-
-
 namespace itp
 {
 	/*

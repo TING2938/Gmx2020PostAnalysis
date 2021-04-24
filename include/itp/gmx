@@ -17,29 +17,10 @@
 #include <gromacs/trajectory/trajectoryframe.h>
 #include <gromacs/commandline/cmdlineinit.h>
 
-// type define
-namespace itp
-{
-	template <typename T>
-	using Mat = Eigen::Array<T, Dynamic, Dynamic>;
 
-	template <typename T>
-	using Vec = Eigen::Array<T, Dynamic, 1>;
-
-	using boxd = Mat<Eigen::Array3d>;
-
-	using matd = Eigen::ArrayXXd;
-	using mati = Eigen::ArrayXXi;
-
-	using vecd = Eigen::ArrayXd;
-	using veci = Eigen::ArrayXi;
-}
-
-using std::vector;
-using std::string;
 #include "gmx_bits/gmx_config.hpp" 
 #include "gmx_bits/gmx_handle.ipp"
- 
+
 #include "gmx_bits/gmx_handle_full.ipp"
 
 #endif // !__ITP_GMX_HEADER_INCLUDE__

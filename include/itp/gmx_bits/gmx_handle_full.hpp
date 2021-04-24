@@ -113,9 +113,6 @@ namespace itp
 		void get_mass_charge(int grp);
 
 	public:
-		template <typename T>
-		using stdMatrix = std::vector<std::vector<T>>;
-
 		std::vector<const char*> desc = { "do some analysis for trajectort." };
 
 		double               Lbox[3];      // Length of box 		
@@ -134,18 +131,18 @@ namespace itp
 		std::vector<t_pargs>      pa;      // add some user-defined pargs             
 		std::vector<t_filenm>    fnm;      // files for analysis
 
-		stdMatrix<int>                   napm;        // number of atoms per molecule in each selection
-		std::vector<int>                 nmol;        // number of nolecules in each selection 
-		std::vector<stdMatrix<double>>   mass;        // mass of each group  
-		std::vector<stdMatrix<double>>   charge;      // charge of each group 
-		stdMatrix<double>                totMass;     // total mass of molecules in each group
-		stdMatrix<double>                totCharge;   // total charge of molecules in each group
+		std::vector<std::vector<int>>     napm;      // number of atoms per molecule in each selection
+		std::vector<int>                  nmol;      // number of nolecules in each selection 
+		std::vector<std::vector<std::vector<double>>>   mass;        // mass of each group  
+		std::vector<std::vector<std::vector<double>>>   charge;      // charge of each group 
+		std::vector<std::vector<double>> totMass;
+		std::vector<std::vector<double>> totCharge;
 		
 	protected:
 		int                     argc;
-		char**                  argv;
-		t_trxstatus*          status;
-		gmx_output_env_t*       oenv;
+		char** argv;
+		t_trxstatus* status;
+		gmx_output_env_t* oenv;
 		int                     ePBC;
 	}; // ! class GmxHandle
 

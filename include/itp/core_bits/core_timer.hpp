@@ -21,14 +21,20 @@ namespace itp
 	*/
 	class Timer
 	{
-		typedef std::chrono::steady_clock::time_point   TimePoint;
-		typedef std::chrono::duration<double>           Duration;
-		typedef std::chrono::steady_clock               SteadyClock;
-	private:
-		TimePoint _begin;
-		TimePoint _end;
 	public:
-		Timer() : _begin(TimePoint()), _end(TimePoint())
+		using nanoseconds = std::chrono::duration<double, std::nano>;   // ns
+		using microseconds = std::chrono::duration<double, std::micro>; // us
+		using milliseconds = std::chrono::duration<double, std::milli>; // ms
+		using seconds = std::chrono::duration<double>;                  // s
+		using minutes = std::chrono::duration<double, std::ratio<60>>;  // min
+		using hours = std::chrono::duration<double, std::ratio<3600>>;  // h
+		
+	private:
+		std::chrono::steady_clock::time_point _begin, _end;
+		
+	public:
+		Timer() : _begin(std::chrono::steady_clock::time_point()),
+			_end(std::chrono::steady_clock::time_point())
 		{
 		}
 
@@ -37,7 +43,7 @@ namespace itp
 		*/
 		void start()
 		{
-			_begin = SteadyClock::now();
+			_begin = std::chrono::steady_clock::now();
 		}
 
 		/**
@@ -45,17 +51,17 @@ namespace itp
 		*/
 		void stop()
 		{
-			_end = SteadyClock::now();
+			_end = std::chrono::steady_clock::now();
 		}
 
 		/**
 		 * @brief 计时跨度
-		 * @return 从开始到结束所用时间（秒）
+		 * @return 从开始到结束所用时间（默认：秒）
 		*/
+		template <typename Duration = seconds>
 		double span()
 		{
-			Duration span = std::chrono::duration_cast<Duration>(_end - _begin);
-			return span.count();
+			return std::chrono::duration_cast<Duration>(_end - _begin).count();
 		}
 
 	};
