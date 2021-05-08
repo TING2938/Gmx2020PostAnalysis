@@ -26,6 +26,7 @@ namespace itp
 		{
 			exit(0);
 		}
+		process = 1;
 
 		top = new t_topology;
 		ir = new t_inputrec;
@@ -65,7 +66,6 @@ namespace itp
 			fmt::print("------------------------------\n");
 			fmt::print("{:<12s}{:>9.3f}{:>9.3f}\n", "Total", totMass[i][0], totCharge[i][0]);
 		}
-		process = 1;
 	}
 
 	inline bool GmxHandleFull::readFirstFrame()

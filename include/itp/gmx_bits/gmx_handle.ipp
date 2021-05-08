@@ -23,6 +23,7 @@ namespace itp
 		{
 			exit(0);
 		}
+		process = 1;
 
 		top = new t_topology;
 		ir = new t_inputrec;
@@ -67,7 +68,6 @@ namespace itp
 			}
 			fmt::print("\n");
 		}
-		process = 1;
 	}
 
 	inline bool GmxHandle::readFirstFrame()
