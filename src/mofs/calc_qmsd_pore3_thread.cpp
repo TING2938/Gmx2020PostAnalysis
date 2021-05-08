@@ -149,14 +149,12 @@ gmx_main(temp)
 		{XX, YY}, {YY, ZZ}, {XX, ZZ},
 		{XX, YY, ZZ},
 	};
-	int nthreads = 16;
 
 	hd.pa = {
 		{ "-low", FALSE, etRVEC, {lowPos}, "low position" },
 		{ "-up", FALSE, etRVEC, {upPos}, "up position" },
 		{ "-com", FALSE, etINT, {&com}, "center of molecule, 0:mass, 1:geometry, 2:charge"},
-		{ "-type", FALSE, etINT, {&qmsdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"},
-		{ "-threads", FALSE, etINT, {&nthreads}, "number of threads"}
+		{ "-type", FALSE, etINT, {&qmsdType}, "type to calculate. 0:X, 1:Y, 2:Z, 3:XY, 4:YZ, 5:XZ, 6:XYZ"}
 	};
 
 	hd.fnm = {
@@ -166,7 +164,6 @@ gmx_main(temp)
 	int grp = 0;
 	hd.init();
 	hd.readFirstFrame();
-	hd.nthreads = nthreads;
 
 	hd.initPosc(hd.xcur, grp);
 	hd.initPosc(hd.xpre, grp);

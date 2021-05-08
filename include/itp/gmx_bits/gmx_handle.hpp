@@ -181,6 +181,7 @@ namespace itp
 		veci                    nmol;      // number of nolecules in each selection 
 		Vec<vecd>               mass;      // mass of each group  
 		Vec<vecd>             charge;      // charge of each group 
+		int                 nthreads;      // number of threads
 		
 	protected:
 		int                     argc;
@@ -188,6 +189,7 @@ namespace itp
 		t_trxstatus* status;
 		gmx_output_env_t* oenv;
 		int                     ePBC;
+		int                  process; // 0[construct], 1[init()], 2[readFirstFrame()], 3[readNextFrame()]
 	}; // ! class GmxHandle
 
 } // ! namespace itp

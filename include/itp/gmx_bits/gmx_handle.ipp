@@ -4,12 +4,16 @@
 namespace itp
 {
 	inline GmxHandle::GmxHandle(int argc, char** argv) : argc(argc), argv(argv),
-		flags(TRX_READ_X), ngrps(1), nframe(0)
+		flags(TRX_READ_X), ngrps(1), nframe(0), process(0)
 	{
 	}
 
 	inline void GmxHandle::init(bool bFullMolecule)
 	{
+		if (process != 0)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		fnm.push_back({ efTRX, "-f", nullptr, ffREAD });
 		fnm.push_back({ efTPR, "-s", nullptr, ffREAD });
 		fnm.push_back({ efNDX, "-n", nullptr, ffOPTRD });
@@ -63,10 +67,15 @@ namespace itp
 			}
 			fmt::print("\n");
 		}
+		process = 1;
 	}
 
 	inline bool GmxHandle::readFirstFrame()
 	{
+		if (process != 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		bool b = read_first_frame(oenv, &status, get_ftp2fn(efTRX), fr, flags);
 		b && (nframe = 1);
 		Lbox[XX] = fr->box[XX][XX];
@@ -75,11 +84,16 @@ namespace itp
 		time = fr->time;
 		preTime = fr->time;
 		dt = 0;
+		process = 2;
 		return b;
 	}
 
 	inline bool GmxHandle::readNextFrame()
 	{
+		if (process != 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		bool b = read_next_frame(oenv, status, fr);
 		b && (++nframe);
 		Lbox[XX] = fr->box[XX][XX];
@@ -91,11 +105,16 @@ namespace itp
 			preTime = time;
 			time = fr->time;
 		}
+		process = 3;
 		return b;
 	}
 
 	inline boxd GmxHandle::initPos(int grp)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -105,6 +124,10 @@ namespace itp
 
 	inline matd GmxHandle::initPosc(int grp)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -114,6 +137,10 @@ namespace itp
 
 	inline void GmxHandle::loadPosition(boxd& pos, int grp)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -149,6 +176,10 @@ namespace itp
 
 	inline void GmxHandle::loadPositionCenter(matd& posc, int grp, int center)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -200,6 +231,10 @@ namespace itp
 
 	inline void GmxHandle::loadVelocity(boxd& vel, int grp)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -227,6 +262,10 @@ namespace itp
 
 	inline void GmxHandle::loadVelocityCenter(matd& velc, int grp, int com)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -270,6 +309,10 @@ namespace itp
 	
 	inline void GmxHandle::loadForce(boxd& force, int grp)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -297,6 +340,10 @@ namespace itp
 
 	inline void GmxHandle::loadForceCenter(matd& forcec, int grp, int com)
 	{
+		if (process < 2)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -340,6 +387,10 @@ namespace itp
 
 	inline void GmxHandle::loadLJParameter(int group1, int group2, matd& c6, matd& c12)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		if ((group1 >= ngrps) || (group2 >= ngrps))
 		{
 			gmx_fatal(FARGS, "grp(%d and %d) should less than ngrps(%d)!", group1, group2, ngrps);
@@ -377,6 +428,10 @@ namespace itp
 
 	inline FILE* GmxHandle::openWrite(std::string fnm, bool writeInfo)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		FILE* fp = fopen(fnm.c_str(), "w");
 		if (writeInfo)
 		{		
@@ -394,16 +449,28 @@ namespace itp
 
 	inline const char* GmxHandle::get_ftp2fn(int ftp)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		return ftp2fn(ftp, (int)fnm.size(), fnm.data());
 	}
 
 	inline const char* GmxHandle::get_ftp2fn_null(int ftp)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		return ftp2fn_null(ftp, (int)fnm.size(), fnm.data());
 	}
 
 	inline const char* GmxHandle::get_opt2fn(const char* opt)
 	{
+		if (process < 1)
+		{
+			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
+		}
 		return opt2fn(opt, (int)fnm.size(), fnm.data());
 	}
 

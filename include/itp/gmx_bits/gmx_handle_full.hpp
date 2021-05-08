@@ -7,6 +7,8 @@ namespace itp
 	class GmxHandleFull
 	{
 	public:
+		template <typename T>
+		using stdMatrix = std::vector<std::vector<T>>;
 
 		GmxHandleFull(int argc, char** argv);
 		GmxHandleFull(const GmxHandleFull&) = delete;
@@ -59,6 +61,14 @@ namespace itp
 		 * @param com 质心计算方式；质量(0)，几何(1)，电荷(2)
 		*/
 		void loadPositionCenter(matd& posc, int grp, int com = 0);
+
+		/**
+		 * @brief 导入分子速度中心信息
+		 * @param pos 写入速度中心的容器
+		 * @param grp 组别
+		 * @param com 质心计算方式；质量(0)，几何(1)，电荷(2)
+		*/
+		void loadVelocityCenter(matd& velc, int grp, int com = 0);
 
 		/**
 		 * @brief 得到一个文件句柄
@@ -130,20 +140,22 @@ namespace itp
 		int                   nframe;      // nr. of frame                             
 		std::vector<t_pargs>      pa;      // add some user-defined pargs             
 		std::vector<t_filenm>    fnm;      // files for analysis
-
-		std::vector<std::vector<int>>     napm;      // number of atoms per molecule in each selection
-		std::vector<int>                  nmol;      // number of nolecules in each selection 
-		std::vector<std::vector<std::vector<double>>>   mass;        // mass of each group  
-		std::vector<std::vector<std::vector<double>>>   charge;      // charge of each group 
-		std::vector<std::vector<double>> totMass;
-		std::vector<std::vector<double>> totCharge;
+		
+		stdMatrix<int>          napm;      // number of atoms per molecule in each selection
+		std::vector<int>        nmol;      // number of nolecules in each selection 
+		stdMatrix<std::vector<double>>     mass;      // mass of each group  
+		stdMatrix<std::vector<double>>   charge;      // charge of each group 
+		stdMatrix<double>    totMass;      // total mass of each molecule in each selection
+		stdMatrix<double>  totCharge;      // total charge of each molecule in each selection
+		int                 nthreads;      // number of threads
 		
 	protected:
 		int                     argc;
-		char** argv;
-		t_trxstatus* status;
-		gmx_output_env_t* oenv;
+		char**                  argv;
+		t_trxstatus*          status;
+		gmx_output_env_t*       oenv;
 		int                     ePBC;
-	}; // ! class GmxHandle
+		int                  process; // 0[construct], 1[init()], 2[readFirstFrame()], 3[readNextFrame()]
+	}; // ! class GmxHandleFull
 
 } // ! namespace itp

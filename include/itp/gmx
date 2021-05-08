@@ -4,6 +4,7 @@
 
 #include <array>
 #include <itp/utility>
+#include <omp.h>
 
 #include <gromacs/commandline/pargs.h>
 #include <gromacs/fileio/trxio.h> 
@@ -16,7 +17,6 @@
 #include <gromacs/math/utilities.h>
 #include <gromacs/trajectory/trajectoryframe.h>
 #include <gromacs/commandline/cmdlineinit.h>
-
 
 #include "gmx_bits/gmx_config.hpp" 
 #include "gmx_bits/gmx_handle.ipp"
