@@ -103,7 +103,6 @@ namespace itp
 			preTime = time;
 			time = fr->time;
 		}
-		process = 3;
 		return b;
 	}
 
