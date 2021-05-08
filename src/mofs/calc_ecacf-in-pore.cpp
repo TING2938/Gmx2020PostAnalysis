@@ -129,13 +129,13 @@ gmx_main(temp)
 	
 	} while (hd.readNextFrame());
 
-	real halframe = hd.nframe / 2;
+	int halframe = hd.nframe / 2;
 	hd.cacf.resize(halframe);
 	hd.cacf.fill(0);
 
 	for (int i = 0; i < halframe; i++)
 	{
-		#pragma omp parallel for num_threads(nthreads)
+		#pragma omp parallel for num_threads(hd.nthreads)
 		for (int j = 0; j < halframe; j++)
 		{
 			for (int m = 0; m < CalcDim[Type].size(); m++)
