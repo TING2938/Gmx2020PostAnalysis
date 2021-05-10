@@ -12,7 +12,7 @@ int main()
 {
 	int N;
 	fmt::print("please input matrix size: ");
-	std::cin << N;
+	std::cin >> N;
 	fmt::print("Matrix size: {0} x {0}\n", N);
 	std::vector<std::vector<real>> matrix(N);
 	for (int i = 0; i < N; i++)
