@@ -4,12 +4,15 @@
 #include <fstream>
 #include <itp/timer>
 #include <sstream>
+#include <iostream>
 
 using real = float;
 
 int main()
 {
-	constexpr int N = 5000;
+	int N;
+	fmt::print("please input matrix size: ");
+	std::cin << N;
 	fmt::print("Matrix size: {0} x {0}\n", N);
 	std::vector<std::vector<real>> matrix(N);
 	for (int i = 0; i < N; i++)
