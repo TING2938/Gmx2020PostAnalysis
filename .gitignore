@@ -37,6 +37,8 @@ doc/
 *.lammpstrj
 [Ll]ammps-*/
 data/
+binFile
+textFile
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

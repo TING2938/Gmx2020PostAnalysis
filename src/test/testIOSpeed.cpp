@@ -5,11 +5,13 @@
 #include <itp/timer>
 #include <sstream>
 
+using real = float;
+
 int main()
 {
 	constexpr int N = 10000;
 	fmt::print("Matrix size: {0} x {0}\n", N);
-	std::vector<std::vector<double>> matrix(N);
+	std::vector<std::vector<real>> matrix(N);
 	for (int i = 0; i < N; i++)
 	{
 		matrix[i].resize(N);
@@ -39,12 +41,12 @@ int main()
 	std::ofstream binFile("binFile", std::ios::binary);
 	for (int i = 0; i < N; i++)
 	{
-		binFile.write((char*)(matrix.data()), sizeof(double) * N);
+		binFile.write((char*)(matrix[i].data()), sizeof(real) * N);
 	}
 	timer.stop();
 	fmt::print("write to binary file: {} s\n", timer.span());
 
-	std::vector<std::vector<double>> loadFromText(N);
+	std::vector<std::vector<real>> loadFromText(N);
 	timer.start();
 	std::string line;
 	std::stringstream ss;
@@ -63,11 +65,10 @@ int main()
 	timer.stop();
 	fmt::print("read from text file: {} s\n", timer.span());
 
-	std::vector<double> loadFromBinary(N*N);
+	std::vector<real> loadFromBinary(N*N);
 	timer.start();
 	std::ifstream binFileID("binFile", std::ios::binary);
-	binFileID.read((char*)(loadFromBinary.data()), sizeof(double)*N*N);
-
+	binFileID.read((char*)(loadFromBinary.data()), sizeof(real)*N*N);
 	timer.stop();
 	fmt::print("read from binary file: {} s\n", timer.span());
 
