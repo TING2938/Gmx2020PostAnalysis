@@ -4,19 +4,21 @@
  *  Desc       : calculation ecacf
  */
 #include <itp/gmx>
+#include <omp.h>
 
 class Handle : public itp::GmxHandle
 {
 public:
 	using GmxHandle::GmxHandle;
 
-	void calcCacf() 
+	void calcCacf(int nthreads) 
 	{
 		size_t halfFrame = qv.size() / 2; 
 		double tmp; 
 		cacf.resize(halfFrame);
 		cacf.fill(0); 
 
+	#pragma omp parallel for num_threads(nthreads) 
 		for (size_t j = 0; j != halfFrame; ++j)
 		{
 			for (size_t k = 0; k != halfFrame; ++k)
@@ -46,8 +48,11 @@ gmx_main(temp)
 	hd.ngrps = 1;
 
 	real temperature = 300; // K
+	int nthreads = 16;
+
 	hd.pa = {
-		{"-temp", FALSE, etREAL, {&temperature}, "system temperature (K)"}
+		{"-temp", FALSE, etREAL, {&temperature}, "system temperature (K)"},
+		{"-nthreads", FALSE, etINT, {&nthreads}, "number of threads"}
 	};
 
 	hd.fnm = {
@@ -88,7 +93,7 @@ gmx_main(temp)
 
 	volume /= hd.nframe;
 
-	hd.calcCacf();
+	hd.calcCacf(nthreads);
 
 	auto halfIndex = hd.qv.size() / 2;
 	Eigen::ArrayXd time(halfIndex);
