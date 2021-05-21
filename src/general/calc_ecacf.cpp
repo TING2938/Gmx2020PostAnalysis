@@ -19,12 +19,12 @@ public:
 		cacf.fill(0); 
 
 	#pragma omp parallel for num_threads(nthreads) 
-		for (size_t j = 0; j != halfFrame; ++j)
+		for (size_t j = 0; j < halfFrame; ++j)
 		{
-			for (size_t k = 0; k != halfFrame; ++k)
+			for (size_t k = 0; k < halfFrame; ++k)
 			{
 				tmp = 0;
-				for (size_t m = 0; m != 3; ++m)
+				for (size_t m = 0; m < 3; ++m)
 				{
 					tmp += qv[k + j][m] * qv[k][m];
 				}
