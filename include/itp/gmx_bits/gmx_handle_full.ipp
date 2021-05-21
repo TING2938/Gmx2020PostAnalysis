@@ -4,17 +4,13 @@
 namespace itp
 {
 	inline GmxHandleFull::GmxHandleFull(int argc, char** argv) : argc(argc), argv(argv),
-		flags(TRX_READ_X), ngrps(1), nframe(0), process(0)
+		flags(TRX_READ_X), ngrps(1), nframe(0)
 	{
 		nthreads = omp_get_num_procs();
 	}
 
 	inline void GmxHandleFull::init()
 	{
-		if (process != 0)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		fnm.push_back({ efTRX, "-f", nullptr, ffREAD });
 		fnm.push_back({ efTPR, "-s", nullptr, ffREAD });
 		fnm.push_back({ efNDX, "-n", nullptr, ffOPTRD });
@@ -26,7 +22,6 @@ namespace itp
 		{
 			exit(0);
 		}
-		process = 1;
 
 		top = new t_topology;
 		ir = new t_inputrec;
@@ -70,10 +65,6 @@ namespace itp
 
 	inline bool GmxHandleFull::readFirstFrame()
 	{
-		if (process != 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		bool b = read_first_frame(oenv, &status, get_ftp2fn(efTRX), fr, flags);
 		b && (nframe = 1);
 		Lbox[XX] = fr->box[XX][XX];
@@ -82,16 +73,11 @@ namespace itp
 		time = fr->time;
 		preTime = fr->time;
 		dt = 0;
-		process = 2;
 		return b;
 	}
 
 	inline bool GmxHandleFull::readNextFrame()
 	{
-		if (process != 2)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		bool b = read_next_frame(oenv, status, fr);
 		b && (++nframe);
 		Lbox[XX] = fr->box[XX][XX];
@@ -108,10 +94,6 @@ namespace itp
 
 	inline void GmxHandleFull::initPos(boxd& pos, int grp)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -122,10 +104,6 @@ namespace itp
 
 	inline void GmxHandleFull::initPosc(matd& posc, int grp)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -136,10 +114,6 @@ namespace itp
 
 	inline void GmxHandleFull::loadPosition(boxd& pos, int grp)
 	{
-		if (process < 2)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -175,10 +149,6 @@ namespace itp
 
 	inline void GmxHandleFull::loadPositionCenter(matd& posc, int grp, int center)
 	{
-		if (process < 2)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -238,10 +208,6 @@ namespace itp
 
 	inline void GmxHandleFull::loadVelocityCenter(matd& velc, int grp, int com)
 	{
-		if (process < 2)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		if (grp >= ngrps)
 		{
 			gmx_fatal(FARGS, "grp(%d) should less than ngrps(%d)!", grp, ngrps);
@@ -292,10 +258,6 @@ namespace itp
 
 	inline FILE* GmxHandleFull::openWrite(std::string fnm, bool writeInfo)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		FILE* fp = fopen(fnm.c_str(), "w");
 		if (writeInfo)
 		{		
@@ -313,28 +275,16 @@ namespace itp
 
 	inline const char* GmxHandleFull::get_ftp2fn(int ftp)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		return ftp2fn(ftp, (int)fnm.size(), fnm.data());
 	}
 
 	inline const char* GmxHandleFull::get_ftp2fn_null(int ftp)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		return ftp2fn_null(ftp, (int)fnm.size(), fnm.data());
 	}
 
 	inline const char* GmxHandleFull::get_opt2fn(const char* opt)
 	{
-		if (process < 1)
-		{
-			gmx_fatal(FARGS, "The function `%s` was called incorrectly!", __FUNCTION__);
-		}
 		return opt2fn(opt, (int)fnm.size(), fnm.data());
 	}
 
