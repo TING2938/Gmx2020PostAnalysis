@@ -39,6 +39,7 @@ doc/
 data/
 binFile
 textFile
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

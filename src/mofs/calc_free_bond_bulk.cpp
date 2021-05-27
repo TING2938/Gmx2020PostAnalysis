@@ -193,8 +193,6 @@ gmx_main(calc_bond)
 		return ret;
 	};
 
-	const char* testChar = "1234\0 567";
-
 	std::vector<int> allNdx1(hd.nmol[0]);
 	std::vector<int> allNdx2(hd.nmol[1]);
 	std::iota(allNdx1.begin(), allNdx1.end(), 0);
