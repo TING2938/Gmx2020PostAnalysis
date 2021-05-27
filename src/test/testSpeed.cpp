@@ -23,10 +23,10 @@ std::vector<std::vector<double>> creatStdMatrix(int m, int n)
 
 int main()
 {
-	itp::Timer time;
+	itp::Timeit timeit;
 	int N = 100000000;
 	{
-		time.start();
+		timeit.start();
 		auto mat1 = creatStdMatrix(N, 3);
 		for (int i = 0; i < N; i++)
 		{
@@ -36,12 +36,12 @@ int main()
 			}
 		}
 
-		time.stop();
-		fmt::print("vector value: {}, time: {} ms\n", mat1[N/2][1], time.span<itp::Timer::milliseconds>());
+		timeit.stop();
+		fmt::print("vector value: {}, time: {} ms\n", mat1[N/2][1], timeit.span<itp::Timeit::milliseconds>());
 	}
 
 	{
-		time.start();
+		timeit.start();
 		auto mat3 = creatMatrix(N, 3);
 		for (int i = 0; i < N; i++)
 		{
@@ -51,12 +51,12 @@ int main()
 			}
 		}
 
-		time.stop();
-		fmt::print("new value: {}, time: {} s\n", mat3[N / 2][1], time.span());
+		timeit.stop();
+		fmt::print("new value: {}, time: {} s\n", mat3[N / 2][1], timeit.span());
 	}
 
 	{
-		time.start();
+		timeit.start();
 		std::vector<std::array<double, 3>> mat2(N);
 		for (int i = 0; i < N; i++)
 		{
@@ -66,13 +66,13 @@ int main()
 			}
 		}
 
-		time.stop();
-		fmt::print("std vector array value: {}, time: {} ms\n", mat2[N / 2][1], time.span<itp::Timer::milliseconds>());
+		timeit.stop();
+		fmt::print("std vector array value: {}, time: {} ms\n", mat2[N / 2][1], timeit.span<itp::Timeit::milliseconds>());
 	}
 	
 	{
 		using rvec = double[3];
-		time.start();
+		timeit.start();
 		auto mat4 = new rvec[N];
 
 		for (int i = 0; i < N; i++)
@@ -83,12 +83,12 @@ int main()
 			}
 		}
 
-		time.stop();
-		fmt::print("new plain value: {}, time: {} s\n", mat4[N / 2][1], time.span());
+		timeit.stop();
+		fmt::print("new plain value: {}, time: {} s\n", mat4[N / 2][1], timeit.span());
 	}
 
 	{
-		time.start();
+		timeit.start();
 		Eigen::ArrayXXd mat5(N, 3);
 
 		for (int i = 0; i < N; i++)
@@ -99,8 +99,8 @@ int main()
 			}
 		}
 
-		time.stop();
-		fmt::print("Eigen value: {}, time: {} s\n", mat5(N / 2, 1), time.span());
+		timeit.stop();
+		fmt::print("Eigen value: {}, time: {} s\n", mat5(N / 2, 1), timeit.span());
 	}
 
 }

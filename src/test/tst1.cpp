@@ -1,4 +1,5 @@
 #include <itp/core>
+#include <itp/getopt>
 #include <thread>
 #include <vector>
 
@@ -28,13 +29,13 @@ int main(int argc, char* argv[])
 
 	int a1 = 0, a2 = 3;
 	double b1 = 3.5, b2 = 5.6;
-	string s1{ "s1" }, s2{ "s2" };
-	vecd v1{ 2, 4, 5 };
+	std::string s1{ "s1" }, s2{ "s2" };
+	std::vector<int> v1 = { 2, 4, 5 };
 
 	getopt(a1, "-a1", false, "a1");
 	getopt(b1, "-b1", false, "b1");
 	getopt(s1, "-s1", false, "s1");
-	getopt.getArray(v1, "-v1", false, "v1"); 
+	getopt.getArray(v1, "-v1", 0, false, "v1"); 
 	getopt.finish();
 
 }

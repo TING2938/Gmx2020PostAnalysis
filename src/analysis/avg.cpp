@@ -12,7 +12,7 @@ int avg(int argc, char* argv[])
 	double endTime = inf;
 
 	getopt.getFixPos(fileName, 1, true, "file name to analysis");
-	getopt.getArray(col, "-c", false, "Column to analysis.");
+	getopt.getArray(col, "-c", 0, false, "Column to analysis.");
 	std::sort(col.begin(), col.end());
 	getopt(begTime, "-b", false, "Begin position.");
 	getopt(endTime, "-e", false, "End position.");

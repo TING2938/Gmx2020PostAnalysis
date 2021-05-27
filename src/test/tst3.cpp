@@ -13,11 +13,5 @@ int main(int argc, char** argv)
 	Eigen::ArrayXXd B(12, 3);
 	B << arr, arr, arr;
 
-
 	fmt::print("{}\n", B);
-	
-
-	
-
-
 }

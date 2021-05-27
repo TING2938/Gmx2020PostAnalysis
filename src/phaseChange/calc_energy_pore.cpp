@@ -47,7 +47,7 @@ int my_main(int argc, char *argv[])
 
 	hd.ngrps = 2;
 	hd.init();
-	matd c6, c12;
+	itp::matd c6, c12;
 	hd.loadLJParameter(0, 1, c6, c12);
 	hd.readFirstFrame();
 	
@@ -58,7 +58,7 @@ int my_main(int argc, char *argv[])
 	auto posc1 = hd.initPosc(0);   // center of mols
 	auto posc2 = hd.initPosc(1);
 
-	vecd V(nbin, 0), C(nbin, 0), N(nbin, 0);
+	itp::vecd V(nbin, 0), C(nbin, 0), N(nbin, 0);
 
     int index = 0; 
     int meZ = 0;

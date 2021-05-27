@@ -12,7 +12,7 @@ int main()
 {
 	int N;
 	fmt::print("please input matrix size: ");
-	std::cin << N;
+	std::cin >> N;
 	fmt::print("Matrix size: {0} x {0}\n", N);
 	std::vector<std::vector<real>> matrix(N);
 	for (int i = 0; i < N; i++)
@@ -24,26 +24,26 @@ int main()
 		}
 	}
 
-	itp::Timer timer;
+	itp::Timeit timeit;
 
 
 	std::ofstream binFile("binFile", std::ios::binary);
-	timer.start();
+	timeit.start();
 	for (int i = 0; i < N; i++)
 	{
 		binFile.write((char*)(matrix[i].data()), sizeof(real) * N);
 	}
-	timer.stop();
+	timeit.stop();
 	binFile.close();
-	fmt::print("write to binary file: {} s\n", timer.span());
+	fmt::print("write to binary file: {} s\n", timeit.span());
 
 	std::vector<real> loadFromBinary(N*N);
 	std::ifstream binFileID("binFile", std::ios::binary);
-	timer.start();
+	timeit.start();
 	binFileID.read((char*)(loadFromBinary.data()), sizeof(real)*N*N);
-	timer.stop();
+	timeit.stop();
 	binFileID.close();
-	fmt::print("read from binary file: {} s\n", timer.span());
+	fmt::print("read from binary file: {} s\n", timeit.span());
 	
 	for (int i = 0; i < N; i++)
 	{

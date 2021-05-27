@@ -43,7 +43,7 @@ gmx_main(temp)
 
 	hd.init();
 	hd.readFirstFrame();
-	auto mass = hd.mass[0][0].sum();
+	auto mass = hd.mass[0].sum();
 
 	auto velc = hd.initPosc(0);
 	auto posc = hd.initPosc(0);
@@ -61,15 +61,15 @@ gmx_main(temp)
 		ene = 0.0;
 		num = 0;
 
-		for (int i = 0; i != posc.nrow(); ++i)
+		for (int i = 0; i != posc.rows(); ++i)
 		{
-			if (lowPos1 < posc[i][dim1] && posc[i][dim1] < upPos1 && lowPos2 < posc[i][dim2] && posc[i][dim2] < upPos2)
+			if (lowPos1 < posc(i, dim1) && posc(i, dim1) < upPos1 && lowPos2 < posc(i, dim2) && posc(i, dim2) < upPos2)
 			{
 				for (int m = 0; m != 3; ++m)
 				{
 					if (m != lateral)
 					{
-						ene += std::pow(velc[i][m], 2);
+						ene += std::pow(velc(i, m), 2);
 					}
 				}
 				num++;

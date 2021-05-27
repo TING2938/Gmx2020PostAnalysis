@@ -33,9 +33,9 @@ gmx_main(temp)
 
 	getElectrodePosition(hd, 1, 2, lowPos, upPos, centerX, centerY, aX, aY, 0.8);
 
-	int nm = hd.nmols[0]; // nr. of molecule
-	matd posc(nm, 3);
-	vecd density(nbin, 0);
+	int nm = hd.nmol[0]; // nr. of molecule
+	itp::matd posc(nm, 3);
+	itp::vecd density(nbin);
 
 	double dbin = (upPos - lowPos) / nbin;
 	size_t meZ;
@@ -66,9 +66,9 @@ gmx_main(temp)
 void getElectrodePosition(itp::GmxHandle & hd, int grp1, int grp2, double & lowPos, double & upPos,
 	double & centerX, double & centerY, double & aX, double& aY, double factor)
 {
-	int nm1 = hd.nmols[grp1];
-	int nm2 = hd.nmols[grp2];
-	matd pos1(nm1, 3), pos2(nm2, 3);
+	int nm1 = hd.nmol[grp1];
+	int nm2 = hd.nmol[grp2];
+	itp::matd pos1(nm1, 3), pos2(nm2, 3);
 
 	hd.loadPositionCenter(pos1, grp1);
 	hd.loadPositionCenter(pos2, grp2);

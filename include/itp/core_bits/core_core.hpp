@@ -7,13 +7,13 @@
 #include <vector>
 #include <array>
 #include <iostream>
+using namespace std::literals;
 
 #include <Eigen/Dense>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 using namespace fmt::literals;
-
 
 // assert
 #ifdef ITP_NDEBUG

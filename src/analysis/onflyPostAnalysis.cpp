@@ -1,6 +1,7 @@
 #include <itp/core>
 #include <itp/getopt>
 #include <itp/fileio>
+#include <fstream>
 
 void getShape(std::ifstream& file, const std::string& sign, int& nrow, int& ncol)
 {
@@ -39,7 +40,7 @@ int main(int argc, char** argv)
 	double beginTime = 0;
 	double endTime = 0;
 
-	itp::Getopt getopt(argc, argv);
+	itp::Getopt getopt(argc, argv, "");
 	getopt(freq, "-freq", true, "freq, userint2 in .mdp file");
 	getopt(dt, "-dt", true, "dt in .mdp file");
 	getopt(beginTime, "-b", false, "begin time (ps)");

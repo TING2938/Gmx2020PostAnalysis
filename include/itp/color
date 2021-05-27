@@ -1,0 +1,6 @@
+#ifndef __INCLUDE_CORE_COLOR_HEADER__
+#define __INCLUDE_CORE_COLOR_HEADER__
+
+#include "core_bits/core_color.hpp"
+
+#endif // !__INCLUDE_CORE_COLOR_HEADER__

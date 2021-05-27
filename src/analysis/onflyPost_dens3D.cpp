@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 	double beginTime = 0;
 	double endTime = 0;
 
-	itp::Getopt getopt(argc, argv);
+	itp::Getopt getopt(argc, argv, "onfly density3D post analysis tool");
 	getopt.getFixPos(inputFnm, 1, true, "input file name");
 	getopt(beginTime, "-b", false, "begin time (ps)");
 	getopt(endTime, "-e", false, "end time (ps)");

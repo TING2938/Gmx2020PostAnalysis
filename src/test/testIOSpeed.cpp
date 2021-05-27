@@ -21,9 +21,9 @@ int main()
 		}
 	}
 
-	itp::Timer timer;
+	itp::Timeit timeit;
 
-	timer.start();
+	timeit.start();
 	std::ofstream textFile("textFile");
 	for (int i = 0; i < N; i++)
 	{
@@ -34,20 +34,20 @@ int main()
 		fmt::print(textFile, "\n");
 	}
 	textFile.close();
-	timer.stop();
-	fmt::print("write to text file: {} s\n", timer.span());
+	timeit.stop();
+	fmt::print("write to text file: {} s\n", timeit.span());
 
-	timer.start();
+	timeit.start();
 	std::ofstream binFile("binFile", std::ios::binary);
 	for (int i = 0; i < N; i++)
 	{
 		binFile.write((char*)(matrix[i].data()), sizeof(real) * N);
 	}
-	timer.stop();
-	fmt::print("write to binary file: {} s\n", timer.span());
+	timeit.stop();
+	fmt::print("write to binary file: {} s\n", timeit.span());
 
 	std::vector<std::vector<real>> loadFromText(N);
-	timer.start();
+	timeit.start();
 	std::string line;
 	std::stringstream ss;
 	std::ifstream textFileID("textFile");
@@ -62,15 +62,15 @@ int main()
 		}
 		ss.clear();
 	}
-	timer.stop();
-	fmt::print("read from text file: {} s\n", timer.span());
+	timeit.stop();
+	fmt::print("read from text file: {} s\n", timeit.span());
 
 	std::vector<real> loadFromBinary(N*N);
-	timer.start();
+	timeit.start();
 	std::ifstream binFileID("binFile", std::ios::binary);
 	binFileID.read((char*)(loadFromBinary.data()), sizeof(real)*N*N);
-	timer.stop();
-	fmt::print("read from binary file: {} s\n", timer.span());
+	timeit.stop();
+	fmt::print("read from binary file: {} s\n", timeit.span());
 
 }
 

@@ -12,11 +12,11 @@ int main(int argc, char** argv)
 	// for read
 	int len = stoi(argv[2]);
 
-	itp::Timer timer;
+	itp::Timeit timeit;
 
 	std::vector<float> output(100);
 
-	timer.start();
+	timeit.start();
 	for (int i = 0; i < 100; i++) {
 		ifstream ifile(argv[1], ios::binary);
 		vector<float> vec(len * len);
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 		ifile.close();
 		output[i] = vec[0];
 	}
-	timer.stop();
+	timeit.stop();
 
-	fmt::print("{}: spend {} ms\n", output[0], timer.span<itp::Timer::milliseconds>());
+	fmt::print("{}: spend {} ms\n", output[0], timeit.span<itp::Timeit::milliseconds>());
 }
