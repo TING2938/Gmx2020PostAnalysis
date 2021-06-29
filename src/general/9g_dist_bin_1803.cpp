@@ -11,7 +11,6 @@
 #include <cstdio>
 #include <map>
 #include <vector>
-#include <itp/core>
 
 struct energy
 {

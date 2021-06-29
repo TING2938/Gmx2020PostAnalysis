@@ -1,4 +1,4 @@
-// https://github.com/99x/timercpp
+ï»¿// https://github.com/99x/timercpp
 
 #ifndef _CORE_TIMER_H_
 #define _CORE_TIMER_H_
@@ -22,40 +22,48 @@ namespace itp
 		using hours = std::chrono::duration<double, std::ratio<3600>>;  // h
 
 	private:
-		std::chrono::steady_clock::time_point _begin, _end;
+		std::chrono::steady_clock::time_point _begin;
+		nanoseconds _span;
 
 	public:
-		Timeit() : _begin(std::chrono::steady_clock::time_point()),
-			_end(std::chrono::steady_clock::time_point())
+		Timeit() : _begin(std::chrono::steady_clock::time_point()), _span(0)
 		{}
-
 
 		void start()
 		{
 			_begin = std::chrono::steady_clock::now();
 		}
 
-		// ½áÊø¼ÆÊ±
-		void stop()
+		void pause()
 		{
-			_end = std::chrono::steady_clock::now();
+			_span += std::chrono::steady_clock::now() - _begin;
 		}
 
-		// @brief ¼ÆÊ±¿ç¶È
-		// @return ´Ó¿ªÊ¼µ½½áÊøËùÓÃÊ±¼ä£¨Ä¬ÈÏ£ºÃë£©
+		void reset()
+		{
+			_span = nanoseconds(0);
+			_begin = std::chrono::steady_clock::now();
+		}
+
+
+		void stop()
+		{
+			_span = std::chrono::steady_clock::now() - _begin;
+		}
+
+
 		template <typename Duration = seconds>
 		double span()
 		{
-			return std::chrono::duration_cast<Duration>(_end - _begin).count();
+			return std::chrono::duration_cast<Duration>(_span).count();
 		}
 
-		// @brief ´òÓ¡³ö¼ÆÊ±¿ç¶È£¨Ä¬ÈÏ£ºÃë£©
 		template <typename Duration = seconds>
 		void printSpan(const std::string& front = "", const std::string& back = "")
 		{
 			std::cout
 				<< front
-				<< std::chrono::duration_cast<Duration>(_end - _begin).count()
+				<< std::chrono::duration_cast<Duration>(_span).count()
 				<< back;
 		}
 
@@ -83,7 +91,7 @@ namespace itp
 				std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 				if (!active.load()) return;
 				func();
-				});
+			});
 			t.detach();
 		}
 
@@ -104,7 +112,7 @@ namespace itp
 					if (!active.load()) return;
 					func();
 				}
-				});
+			});
 			t.detach();
 		}
 
