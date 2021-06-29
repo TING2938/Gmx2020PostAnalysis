@@ -1,8 +1,8 @@
+#include <fstream>
 #include <itp/core>
 #include <itp/fileio>
 #include <itp/utility>
 #include <itp/getopt>
-#include <fstream>
 #include <omp.h>
 
 int main(int argc, char** argv)
