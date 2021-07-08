@@ -1,6 +1,7 @@
 #ifndef __CORE_FILEIO_HPP__
 #define __CORE_FILEIO_HPP__
 
+#include <fstream>
 #include "../core"
 
 namespace itp

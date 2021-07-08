@@ -147,7 +147,7 @@ gmx_main(temp)
 						{
 							if (lowPos <= hd.posc2(j, dim) && hd.posc2(j, dim) <= upPos)
 							{
-								L2 = std::sqrt(std::pow(hd.posc2(j, XX) - centerX, 2) - std::pow(hd.posc2(j, YY) - centerY, 2));
+								L2 = std::sqrt(std::pow(hd.posc2(j, XX) - centerX, 2) + std::pow(hd.posc2(j, YY) - centerY, 2));
 								if (L2 < RMOF_max)
 								{
 									distance = hd.calcDistance(i, j);
