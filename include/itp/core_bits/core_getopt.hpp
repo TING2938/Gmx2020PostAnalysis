@@ -163,18 +163,45 @@ namespace itp
             auto b = findArgs(str);
             if (b != argv.end()) {
                 x.clear();
-                auto e = std::find_if(b + 1, argv.end(),
-                    [](const std::string& chr) { return chr[0] == '-'; });
-                T tmp;
-                for (int i = 1; i != e - b; ++i) {
-                    std::stringstream ss{ *(b + i) };
-                    ss >> tmp;
-                    x.push_back(tmp);
+                auto beg = std::find_if(b + 1, argv.end(),
+                    [](const std::string& chr) { return chr.front() == '['; });
+                if (beg == argv.end())
+                {
+                    std::fprintf(stderr, "Error of command %s!\n", str.c_str());
+                    std::exit(-1);
+                }
+                auto end = std::find_if(b + 1, argv.end(),
+                    [](const std::string& chr) { return chr.back() == ']'; });
+                if (end == argv.end() || end - beg < 0)
+                {
+                    std::fprintf(stderr, "Error of command %s!\n", str.c_str());
+                    std::exit(-1);
+                }
+
+                std::string tmpStr;
+                for (auto i = beg; i != end + 1; i++)
+                {
+                    tmpStr += " ";
+                    tmpStr += *i;
+                }
+                for (auto&& s : tmpStr)
+                {
+                    if (s == '[' || s == ']' || s == ',')
+                        s = ' ';
+                }
+                std::string tmpString;
+                T tmpValue;
+                std::stringstream ss { tmpStr };
+                while (ss >> tmpString)
+                {
+                    std::stringstream ss2{ tmpString };
+                    ss2 >> tmpValue;
+                    x.push_back(tmpValue);
                 }
                 if (length) {
                     if (x.size() != length) {
                         std::fprintf(stderr, "Option \"%s\": require length of %d, "
-                            "but give %zd value, please check your commandline!", 
+                            "but give %zd value, please check your commandline!\n", 
                             str.c_str(), length, x.size());
                         std::exit(-1);
                     }

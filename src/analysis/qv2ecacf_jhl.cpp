@@ -52,7 +52,7 @@ int main(int argc, char** argv)
             index[i][m] = (region[i][m] - lowPos) / (upPos - lowPos) * nbin;
         }
     }
-    int nthreads = omp_get_num_threads();
+    int nthreads = omp_get_max_threads();
 
     auto data = itp::loadtxt(fnm);
     int nrow = data.rows();

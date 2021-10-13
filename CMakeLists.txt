@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -lstdc++fs -O3")
 
 ## options
 option(USE_DEBUG "Debug this code." OFF)
-option(USE_THREAD "Use thread library." OFF)
+option(USE_THREAD "Use thread library." ON)
 option(USE_OMP "Use OpenMP." ON)
 
 if (USE_DEBUG)

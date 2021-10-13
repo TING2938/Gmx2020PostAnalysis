@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     double upPos = 10;
     int nRegion = 2;
     std::vector<double> tmpRegion;
-    int nthreads = omp_get_num_threads();
+    int nthreads = omp_get_max_threads();
     std::vector<std::vector<double>> region;
 
     itp::Getopt getopt(argc, argv, "calc qv to ecacf");
